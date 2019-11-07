@@ -1,0 +1,10 @@
+name: ChouJiang
+main: com.pxpmc.choujiang.ChouJiangMain
+version: '0.0.1-SNAPSHOT'
+depend: []
+softdepend: []
+commands:
+  choujiang: 
+    description: /<command> 
+    usage: /<command>
+    aliases: cj
