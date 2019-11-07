@@ -48,6 +48,7 @@ public class ChouJiangMain extends JavaPlugin implements CommandExecutor, Listen
 	public void onEnable() {
 		this.getCommand("choujiang").setExecutor(this);
 		getServer().getPluginManager().registerEvents(this, this);
+		getServer().getConsoleSender().sendMessage("§b购买Px系列插件可以到&cwww.pxpmc.com");
 		this.reload();
 	}
 	/**
