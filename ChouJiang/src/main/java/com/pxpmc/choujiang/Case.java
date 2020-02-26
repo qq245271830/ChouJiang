@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import com.pxpmc.choujiang.config.Config;
 
@@ -76,6 +76,9 @@ public class Case {
 	 * @return
 	 */
 	public boolean isThatKey(List<String> lore) {
+		if(keyContain.trim().length() == 0) {
+			return true;
+		}
 		for (String s : lore) {
 			if(s.contains(keyContain)) {
 				return true;
@@ -156,7 +159,7 @@ public class Case {
 	 * @param sender
 	 * @return 失败返回false
 	 */
-	public boolean make(CommandSender sender) {
+	public boolean make(Player sender) {
 		List<Prize> prizes = new ArrayList<>();
 		List<Integer> weights = new ArrayList<>();
 		for (Prize p : prize.values()) {
@@ -168,14 +171,15 @@ public class Case {
 			return false;
 		}
 		int index = randomAmount(weights);
-		
 		Prize p = prizes.get(index);
 		if(p.make(sender)) {
-			String msg = ChouJiangMain.getInstance().getConfigManager().getMainConfig().getString("msg", "恭喜{player}抽到了{msg}")
-					.replace("{player}",sender.getName())
-					.replace("{msg}",p.getMsg())
-					;
-			Bukkit.broadcastMessage(ChouJiangMain.reColor(msg));
+			if(p.getMsg().trim().length() > 0) {
+				String msg = ChouJiangMain.getInstance().getConfigManager().getMainConfig().getString("msg", "恭喜{player}抽到了{msg}")
+						.replace("{player}",sender.getName())
+						.replace("{msg}",p.getMsg())
+						;
+				Bukkit.broadcastMessage(ChouJiangMain.reColor(msg));
+			}
 			return true;
 		}
 		return false;
@@ -193,16 +197,16 @@ public class Case {
 			ChouJiangMain.getInstance().getLogger().warning("宝箱lore包含的字符未填写: " + key);
 			return null;
 		}
-		if(!config.contains("key-contain") || !config.isString("key-contain") || config.getString("key-contain").trim().length() == 0) {
-			ChouJiangMain.getInstance().getLogger().warning("宝箱钥匙包含的字符未填写: " + key);
-			return null;
-		}
+//		if(!config.contains("key-contain") || !config.isString("key-contain") || config.getString("key-contain").trim().length() == 0) {
+//			ChouJiangMain.getInstance().getLogger().warning("宝箱钥匙包含的字符未填写: " + key);
+//			return null;
+//		}
 		if(!config.isConfig("prize")) {
 			ChouJiangMain.getInstance().getLogger().warning("宝箱奖品未填写: " + key);
 			return null;
 		}
 		Case c = new Case();
-		c.setKeyContain(config.getString("key-contain"));
+		c.setKeyContain(config.getString("key-contain",""));
 		c.setLoreContain(config.getString("lore-contain"));
 		Config prizes = config.getConfig("prize");
 		for (String prizeKey : prizes.getKeys(false)) {

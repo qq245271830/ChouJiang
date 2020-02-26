@@ -90,7 +90,9 @@ public class ChouJiangMain extends JavaPlugin implements CommandExecutor, Listen
 		}
 		Player p = e.getPlayer();
 		ItemStack item = p.getItemInHand();
-		this.make(p, item);
+		if(this.make(p, item)) {
+			e.setCancelled(true);
+		}
 		return;
 	}
 
@@ -98,12 +100,12 @@ public class ChouJiangMain extends JavaPlugin implements CommandExecutor, Listen
 	 * 运行这个宝箱
 	 * @param sender
 	 * @param item
-	 * @return
+	 * @return 成功触发箱子返回true
 	 */
-	private void make(Player p,ItemStack item) {
+	private boolean make(Player p,ItemStack item) {
 		List<Case> caseList= getCase(item);
 		if(caseList.isEmpty()) {
-			return;
+			return false;
 		}
 //		List<Case> list = new ArrayList<>();
 		Map<Case,Integer> keySlots = new HashMap<>();
@@ -134,7 +136,7 @@ public class ChouJiangMain extends JavaPlugin implements CommandExecutor, Listen
 		}
 		if(keySlots.isEmpty()) {
 			p.sendMessage(reColor(cm.getMainConfig().getString("not-key", "&c你没有开该宝箱的钥匙")));
-			return;
+			return true;
 		}
 		
 		Case priorityCase = null;
@@ -144,7 +146,7 @@ public class ChouJiangMain extends JavaPlugin implements CommandExecutor, Listen
 		//优先级从高到底来获取钥匙的位置和钥匙物品以及宝箱实例
 		do {
 			if(keySlots.isEmpty()) {
-				return;
+				return false;
 			}
 			//判断箱子的优先级
 			for (Case e : keySlots.keySet()) {
@@ -163,16 +165,28 @@ public class ChouJiangMain extends JavaPlugin implements CommandExecutor, Listen
 		//判断是否执行成功
 		try {
 			if(priorityCase.make(p)) {
-				//消耗一个钥匙物品
-				if(keyItem.getAmount() > 1) {
-					keyItem.setAmount(keyItem.getAmount()-1);
-				}else {
-					inv.setItem(slot, new ItemStack(Material.AIR));
+				if(priorityCase.getKeyContain().trim().length() > 0) {
+					//消耗一个钥匙物品
+					if(keyItem.getAmount() > 1) {
+						keyItem.setAmount(keyItem.getAmount()-1);
+					}else {
+						inv.setItem(slot, new ItemStack(Material.AIR));
+					}
 				}
+				ItemStack item2 = inv.getItem(mainSlot);
+				if(item2.getAmount() > 1) {
+					item2.setAmount(item2.getAmount()-1);
+				}else {
+					inv.setItem(mainSlot, new ItemStack(Material.AIR));
+				}
+			}else {
+				return true;
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return true;
 	}
 	public static String reColor(String msg) {
 		return ChatColor.translateAlternateColorCodes('&', msg);

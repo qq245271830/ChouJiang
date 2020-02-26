@@ -1,0 +1,9 @@
+com\pxpmc\choujiang\Case.class
+com\pxpmc\choujiang\config\ConfigManager.class
+com\pxpmc\choujiang\ChouJiangMain.class
+com\pxpmc\choujiang\config\Config.class
+com\pxpmc\choujiang\config\BukkitConfig.class
+com\pxpmc\choujiang\config\BukkitConfigManager.class
+com\pxpmc\choujiang\config\ConfigContainer.class
+com\pxpmc\choujiang\config\ConfigGetter.class
+com\pxpmc\choujiang\Prize.class

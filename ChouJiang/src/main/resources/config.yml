@@ -12,7 +12,8 @@ case:
     #lore中包含才会判定为该宝箱类型
     lore-contain: '1级宝箱'
     #能打开该宝箱的钥匙lore包含
-    key-contain: '1级钥匙'
+    #留空代表不开启钥匙
+    key-contain: ''
     #如果一个物品有多个宝箱的lore,则会判断该优先级,值越大优先级越高
     priority: 10
     #奖励列表   
@@ -23,36 +24,40 @@ case:
         msg: "一等奖"
         #执行的指令列表
         cmds:
-        - 'say 我抽到了1等奖~~~~'
+        - 'say {player}我抽到了1等奖~~~~'
         #权重
         weight: 1
+        sound: 'ENTITY_PLAYER_LEVELUP'
       #自定义奖品id
       奖品2:
         #奖品的名称
         msg: "二等奖"
         #执行的指令列表
         cmds:
-        - 'say 我抽到了2等奖~~~~'
+        - 'say {player}我抽到了2等奖~~~~'
         #权重
         weight: 1
+        sound: 'ENTITY_PLAYER_LEVELUP'
       #自定义奖品id
       奖品3:
         #奖品的名称
         msg: "三等奖"
         #执行的指令列表
         cmds:
-        - 'say 我抽到了3等奖~~~~'
+        - 'say {player}我抽到了3等奖~~~~'
         #权重
         weight: 1
+        sound: 'ENTITY_PLAYER_LEVELUP'
       #自定义奖品id
       奖品4:
         #奖品的名称
         msg: "安慰奖"
         #执行的指令列表
         cmds:
-        - 'say 我抽到了安慰奖~~~~'
+        - 'say {player}我抽到了安慰奖~~~~'
         #权重
         weight: 1
+        sound: 'ENTITY_PLAYER_LEVELUP'
   #自定义箱子id
   宝箱2:
     #lore中包含才会判定为该宝箱类型
@@ -69,6 +74,7 @@ case:
         msg: "嘻哈奖"
         #执行的指令列表
         cmds:
-        - 'say 我抽到了嘻哈奖~~~~'
+        - 'say {player}我抽到了嘻哈奖~~~~'
         #权重
         weight: 1
+        sound: 'ENTITY_PLAYER_LEVELUP'
